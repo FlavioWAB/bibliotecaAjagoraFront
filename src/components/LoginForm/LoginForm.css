@@ -1,0 +1,23 @@
+.waves-effect {
+    display: flex;
+    align-items: center;
+    justify-self: end;
+}
+
+button {
+    margin-left: auto;
+    margin-right: 0;
+}
+
+.preloader-wrapper {
+    width: 2rem;
+    height: 2rem;
+}
+
+.spinner-layer {
+    border-color: #fff;
+}
+
+.card-panel{
+    margin-bottom: 2rem;
+}
