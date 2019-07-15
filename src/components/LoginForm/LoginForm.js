@@ -2,7 +2,7 @@ import React from 'react';
 import { CardPanel, Icon, TextInput, Button, Preloader } from 'react-materialize';
 import './LoginForm.css';
 import axios from "axios";
-
+import { Redirect } from "react-router-dom";
 
 class LoginForm extends React.Component {
 
@@ -17,7 +17,7 @@ class LoginForm extends React.Component {
             loginFailed: false
         };
 
-        this.backend = 'https://library-rating.herokuapp.com/api/v1';
+        this.backend = 'http://localhost:5000/api/v1';
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -38,18 +38,21 @@ class LoginForm extends React.Component {
 
         this.setState({
             isSubmitting: true
-        })
+        });
 
         axios.post(this.backend + '/authentication/login', {
             username: this.state.username,
             password: this.state.password
+        }, {
+            withCredentials: true
         }).then(() => {
             this.setState({
                 isSubmitting: false,
                 logged: true,
                 loginFailed: false
             });
-        }).catch(() => {
+        }).catch((d) => {
+            console.log(d);
             this.setState({
                 isSubmitting: false,
                 logged: false,
@@ -66,10 +69,17 @@ class LoginForm extends React.Component {
                         Nome e/ou usuário incorretos.
                     </span>
                 </CardPanel> : ''}
-                <TextInput onChange={this.handleInputChange} required label="Nome de usuário" name="username" />
-                <TextInput onChange={this.handleInputChange} error="Wrong Email sir" required password={true} label="Senha" name="password" />
+                <TextInput onChange={this.handleInputChange} 
+                        required 
+                        label="Nome de usuário" 
+                        name="username" />
+                <TextInput onChange={this.handleInputChange}
+                        required
+                        password
+                        label="Senha" 
+                        name="password" />
                 <Button type="submit" waves="light">
-                    {this.state.logged ? <Icon right>done</Icon> : this.state.isSubmitting ? <Preloader color="yellow" size="small" /> : <span>Entrar <Icon right>send</Icon></span>}
+                    {this.state.logged ? <div><Redirect to='/dashboard' /><Icon right>done</Icon></div> : this.state.isSubmitting ? <Preloader color="yellow" size="small" /> : <span>Entrar <Icon right>send</Icon></span>}
                 </Button>
             </form>
         );

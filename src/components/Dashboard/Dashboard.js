@@ -11,6 +11,7 @@ import {
 import axios from "axios";
 import './Dashboard.css';
 import RatingStars from '../RatingStars/RatingStars';
+import { Redirect } from "react-router-dom";
 
 class Dashboard extends React.Component {
     constructor(props) {
@@ -20,64 +21,62 @@ class Dashboard extends React.Component {
             ratings: [],
             ratingsTitle: '',
             isAdmin: false,
-            ratingsSuccess: false
+            ratingsSuccess: false,
+            isLogged: true
         };
 
         this.backend = 'http://localhost:5000/api/v1';
-        // TO-DO retirar login, verificar logo de cara.
-        axios.post(this.backend + '/authentication/login', {
-            username: 'flavios',
-            password: 'flavio'
-        }, {
-                withCredentials: true
-            }).then(() => {
-                axios.get(this.backend + '/authentication/logged', {
+
+        axios.get(this.backend + '/authentication/logged', {
+            withCredentials: true
+        }).then((response) => {
+            let data = response.data;
+            if (data) {
+
+                this.setState({
+                    isAdmin: (data === 1),
+                    isLogged: true
+                });
+
+                axios.get(this.backend + '/ratings' + (this.state.isAdmin ? '' : '/user'), {
                     withCredentials: true
                 }).then((response) => {
-                    let data = response.data;
-                    if (data) {
 
+                    if (response.data.length === 0) {
                         this.setState({
-                            isAdmin: (data === 1)
+                            ratingsSuccess: false
                         });
-
-                        axios.get(this.backend + '/ratings' + (this.state.isAdmin ? '' : '/user'), {
-                            withCredentials: true
-                        }).then((response) => {
-
-                            if (response.data.length === 0) {
-                                this.setState({
-                                    ratingsSuccess: false
-                                });
-                            } else {
-                                this.setState({
-                                    ratingsSuccess: true,
-                                    ratings: response.data
-                                });
-                            }
-
-                        }).catch(() => {
-                            this.setState({
-                                ratingsSuccess: false
-                            });
-                        });
-
-
                     } else {
-                        // TO-DO redirecionar para a página de login
-                        console.log(data);
+                        this.setState({
+                            ratingsSuccess: true,
+                            ratings: response.data
+                        });
                     }
-                }).catch((response) => {
-                    // TO-DO redirecionar para a página de login
-                    console.log(response);
+
+                }).catch(() => {
+                    this.setState({
+                        ratingsSuccess: false
+                    });
                 });
-            })
+
+
+            } else {
+                this.setState({
+                    isLogged: false
+                });
+            }
+        }).catch((response) => {
+            this.setState({
+                isLogged: false
+            });
+        });
     }
 
     render() {
         return (
             // To-do loaders
             <div>
+                {this.state.isLogged ? '' : <Redirect to='/' />}
                 <Navbar alignLinks="right" search>
                 </Navbar>
 
