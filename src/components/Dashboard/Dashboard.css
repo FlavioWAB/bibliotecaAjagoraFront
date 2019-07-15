@@ -1,0 +1,29 @@
+nav {
+    color: #fff;
+    background-color:#68C2E8;
+}
+
+.card.horizontal .card-image {
+    max-width: 40%;
+    align-items: center;
+    display: flex;
+}
+
+.card.horizontal .card-image img{    
+    max-height: 300px;
+    margin: auto;
+}
+
+.dashboardContainer{
+    margin-top:1rem;
+}
+
+.cadastrarLivroButton{
+    width: 100%;
+}
+
+.noRatings{
+    margin-top: 2rem;
+    background-color: #87cfed !important;
+    text-align: center;
+}
