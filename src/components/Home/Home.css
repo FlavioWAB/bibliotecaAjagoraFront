@@ -1,3 +1,14 @@
 .container{    
 	min-height: 100vh;
 }
+
+.ajagoraLogo{
+	height: 12.5rem;
+	pointer-events: none;
+}
+
+.logoContainer{
+	display: flex;
+	justify-content: center;
+	padding-top: 5rem;
+}

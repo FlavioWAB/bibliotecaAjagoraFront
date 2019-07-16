@@ -1,6 +1,6 @@
 nav {
     color: #fff;
-    background-color:#68C2E8;
+    background-color: #68C2E8;
 }
 
 .card.horizontal .card-image {
@@ -9,21 +9,26 @@ nav {
     display: flex;
 }
 
-.card.horizontal .card-image img{    
+.card.horizontal .card-image img {
     max-height: 300px;
     margin: auto;
 }
 
-.dashboardContainer{
-    margin-top:1rem;
+.dashboardContainer {
+    margin-top: 1rem;
 }
 
-.cadastrarLivroButton{
+.cadastrarLivroButton {
     width: 100%;
 }
 
-.noRatings{
+.noRatings {
     margin-top: 2rem;
     background-color: #87cfed !important;
     text-align: center;
 }
+
+.searchWrapper{
+    margin-top: -5px !important;
+}
+

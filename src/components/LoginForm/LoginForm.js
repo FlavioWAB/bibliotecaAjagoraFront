@@ -40,19 +40,17 @@ class LoginForm extends React.Component {
             isSubmitting: true
         });
 
-        axios.post(this.backend + '/authentication/login', {
+        axios.post(`${this.backend}/authentication/login`, {
             username: this.state.username,
             password: this.state.password
-        }, {
-            withCredentials: true
-        }).then(() => {
+        }).then((d) => {
+            localStorage.setItem('token',`Bearer ${d.data.token}`);
             this.setState({
                 isSubmitting: false,
                 logged: true,
                 loginFailed: false
             });
-        }).catch((d) => {
-            console.log(d);
+        }).catch(() => {
             this.setState({
                 isSubmitting: false,
                 logged: false,
@@ -69,18 +67,23 @@ class LoginForm extends React.Component {
                         Nome e/ou usuário incorretos.
                     </span>
                 </CardPanel> : ''}
-                <TextInput onChange={this.handleInputChange} 
-                        required 
-                        label="Nome de usuário" 
-                        name="username" />
                 <TextInput onChange={this.handleInputChange}
-                        required
-                        password
-                        label="Senha" 
-                        name="password" />
-                <Button type="submit" waves="light">
-                    {this.state.logged ? <div><Redirect to='/dashboard' /><Icon right>done</Icon></div> : this.state.isSubmitting ? <Preloader color="yellow" size="small" /> : <span>Entrar <Icon right>send</Icon></span>}
-                </Button>
+                    required
+                    label="Nome de usuário"
+                    name="username" />
+                <TextInput onChange={this.handleInputChange}
+                    required
+                    password
+                    label="Senha"
+                    name="password" />
+                <div className="loginButtonsContainer">
+                    <Button flat onClick={this.props.createUserCallback} type="button">
+                        Criar usuário
+                    </Button>
+                    <Button className="buttonLoaderWrapper" type="submit">
+                        {this.state.logged ? <div><Redirect to='/dashboard' /><Icon right>done</Icon></div> : this.state.isSubmitting ? <Preloader size="small" /> : <span>Entrar <Icon right>send</Icon></span>}
+                    </Button>
+                </div>
             </form>
         );
     }

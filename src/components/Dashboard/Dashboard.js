@@ -2,7 +2,6 @@ import React from 'react';
 import {
     Container,
     CardPanel,
-    Navbar,
     Button,
     Icon,
     Card,
@@ -12,6 +11,7 @@ import axios from "axios";
 import './Dashboard.css';
 import RatingStars from '../RatingStars/RatingStars';
 import { Redirect } from "react-router-dom";
+import NavHeader from '../NavHeader/NavHeader';
 
 class Dashboard extends React.Component {
     constructor(props) {
@@ -22,54 +22,72 @@ class Dashboard extends React.Component {
             ratingsTitle: '',
             isAdmin: false,
             ratingsSuccess: false,
-            isLogged: true
+            isLogged: true,
+            enableSearch: false,
+            searchQuery: ''
         };
+
+        this.UserType = {
+            UNLOGGED: 0,
+            ADMIN: 1,
+            USER: 2
+        }
 
         this.backend = 'http://localhost:5000/api/v1';
 
-        axios.get(this.backend + '/authentication/logged', {
-            withCredentials: true
-        }).then((response) => {
-            let data = response.data;
-            if (data) {
+    }
 
-                this.setState({
-                    isAdmin: (data === 1),
-                    isLogged: true
-                });
+    componentWillMount() {
+        let token = localStorage.getItem('token');
+        if (typeof token !== 'undefined') {
+            axios.get(`${this.backend}/authentication/isLogged`, {
+                headers: {
+                    Authorization: token
+                }
+            }).then((response) => {
+                if (response.data) {
 
-                axios.get(this.backend + '/ratings' + (this.state.isAdmin ? '' : '/user'), {
-                    withCredentials: true
-                }).then((response) => {
+                    this.setState({
+                        isAdmin: (response.data === this.UserType.ADMIN),
+                        isLogged: true
+                    });
 
-                    if (response.data.length === 0) {
+                    axios.get(`${this.backend}/ratings${this.state.isAdmin ? '' : '/user'}`, {
+                        headers: {
+                            Authorization: token
+                        }
+                    }).then((response) => {
+
+                        if (response.data.length === 0) {
+                            this.setState({
+                                ratingsSuccess: false
+                            });
+                        } else {
+                            this.setState({
+                                ratingsSuccess: true,
+                                ratings: response.data
+                            });
+                        }
+
+                    }).catch(() => {
                         this.setState({
                             ratingsSuccess: false
                         });
-                    } else {
-                        this.setState({
-                            ratingsSuccess: true,
-                            ratings: response.data
-                        });
-                    }
-
-                }).catch(() => {
-                    this.setState({
-                        ratingsSuccess: false
                     });
-                });
 
 
-            } else {
+                } else {
+                    this.setState({
+                        isLogged: false
+                    });
+                }
+
+            }).catch((response) => {
                 this.setState({
                     isLogged: false
                 });
-            }
-        }).catch((response) => {
-            this.setState({
-                isLogged: false
             });
-        });
+        }
     }
 
     render() {
@@ -77,9 +95,7 @@ class Dashboard extends React.Component {
             // To-do loaders
             <div>
                 {this.state.isLogged ? '' : <Redirect to='/' />}
-                <Navbar alignLinks="right" search>
-                </Navbar>
-
+                <NavHeader />
                 <Container className="dashboardContainer">
                     {
                         (this.state.isAdmin) ?
