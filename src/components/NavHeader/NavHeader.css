@@ -1,0 +1,9 @@
+.noShadow{
+    box-shadow: none;
+}
+
+@media screen and (min-width: 992px) {
+    .ajagoraBrand {
+        margin-left:1rem;
+    }
+}

@@ -1,0 +1,15 @@
+.passwordContainer {
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
+    margin-top: -1rem;
+    justify-content: space-between;
+}
+
+.passwordContainer>.input-field {
+    flex-grow: 1;
+}
+
+.buttonLoaderWrapper{
+    display: flex;
+}

@@ -1,0 +1,24 @@
+.waves-effect {
+    display: flex;
+    align-items: center;
+    justify-self: end;
+}
+
+.preloader-wrapper {
+    width: 2rem;
+    height: 2rem;
+}
+
+.loginLoader > .spinner-layer {
+    border-color: #fff;
+}
+
+.card-panel{
+    margin-bottom: 2rem;
+}
+
+.loginButtonsContainer{
+    display: inline-flex;    
+    width: 100%;
+    justify-content: flex-end;
+}

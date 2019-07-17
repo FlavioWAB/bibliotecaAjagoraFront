@@ -1,0 +1,12 @@
+.searchResultsContainer {
+    margin-top: 1rem;
+}
+
+.bookDetailsContainer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.searchQueryLabel {
+    margin-bottom: 2rem;
+}
