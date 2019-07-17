@@ -49,7 +49,7 @@ class BookDetails extends React.Component {
                 Authorization: localStorage.getItem('token')
             }
         }).then((response) => {
-            
+
             if (response.data.length === 0) {
                 this.setState({
                     querySuccess: false,
@@ -108,35 +108,35 @@ class BookDetails extends React.Component {
     sendRating() {
         var rating = this.state.selectedRating;
 
-        if(this.state.hasRating){
+        if (this.state.hasRating) {
             axios.put(`${Utils.backend}/ratings`, {
                 bookId: this.props.match.params.id,
                 rating: rating
             }, {
-                headers: {
-                    Authorization: localStorage.getItem('token')
-                }
-            }).then((response) => {
-                this.setState({
-                    hasRating: true,
-                    userRating: rating
-                })
-            });
+                    headers: {
+                        Authorization: localStorage.getItem('token')
+                    }
+                }).then((response) => {
+                    this.setState({
+                        hasRating: true,
+                        userRating: rating
+                    })
+                });
 
         } else {
             axios.post(`${Utils.backend}/ratings`, {
                 bookId: this.props.match.params.id,
                 rating: rating
             }, {
-                headers: {
-                    Authorization: localStorage.getItem('token')
-                }
-            }).then((response) => {
-                this.setState({
-                    hasRating: true,
-                    userRating: rating
-                })
-            });
+                    headers: {
+                        Authorization: localStorage.getItem('token')
+                    }
+                }).then((response) => {
+                    this.setState({
+                        hasRating: true,
+                        userRating: rating
+                    })
+                });
         }
     }
 
@@ -148,18 +148,31 @@ class BookDetails extends React.Component {
                 <Container>
                     {
                         this.state.isLoading ?
-                            <Preloader className="searchLoader" size="big" /> :
+                            <Preloader className="fullPageLoader" size="big" /> :
                             <section className="detalhesContainer">
                                 <Row className="flexRow">
                                     <Col l={6} className="bookDetailsThumbnailCol">
-                                        {this.state.isAdmin ? <Link to={`/editar-livro/${this.state.bookId}`}><Button className="editButton">Editar<Icon right>edit</Icon></Button></Link> : ''}
+                                        {
+                                            this.state.isAdmin ?
+                                                <Link to={`/editar-livro/${this.state.bookId}`}>
+                                                    <Button className="editButton">
+                                                        Editar<Icon right>edit</Icon>
+                                                    </Button>
+                                                </Link> : ''
+                                        }
                                         <MediaBox>
-                                            <img src={`${Utils.backend}/files/${this.state.book.thumbnail}`} height="400px" alt="Capa do livro" />
+                                            <img src={`${Utils.backend}/files/${this.state.book.thumbnail}`}
+                                                height="400px"
+                                                alt="Capa do livro" />
                                         </MediaBox>
                                     </Col>
                                     <Col className="titleColumn" l={6}>
-                                        <span className="bookDetailsTitle">{this.state.book.title}</span><br />
-                                        <span className="bookDetailsAuthor">Por {this.state.book.author}</span>
+                                        <span className="bookDetailsTitle">
+                                            {this.state.book.title}
+                                        </span><br />
+                                        <span className="bookDetailsAuthor">
+                                            Por {this.state.book.author}
+                                        </span>
                                         <div className="ratingDetailsContainer">
                                             <div className="ratingReportContainer">
                                                 <span className="ratingDetailsCount">

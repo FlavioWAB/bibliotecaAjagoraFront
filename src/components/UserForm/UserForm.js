@@ -72,7 +72,7 @@ class UserForm extends React.Component {
 
     render() {
         return (
-            <form onSubmit={this.handleSubmit} className="createUserForm">
+            <form onSubmit={this.handleSubmit} className="createForm">
                 {this.state.submitSuccess ? this.props.loginCallback() : ''}
                 {this.state.submitFailed ? <CardPanel className="red">
                     <span className="white-text">
@@ -99,7 +99,7 @@ class UserForm extends React.Component {
                         name="password" />
                     <Switch className="col" onChange={this.showPassword} offLabel="" onLabel="Mostrar senha" />
                 </div>
-                <div className="userSubmitContainer">
+                <div className="submitContainer">
                     <Button className="buttonLoaderWrapper" type="submit">
                         {this.state.isSubmitting ? <Preloader size="small" /> : <span>Enviar <Icon right>send</Icon></span>}
                     </Button>

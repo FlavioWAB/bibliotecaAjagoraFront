@@ -77,13 +77,13 @@ class SearchResults extends React.Component {
                 {this.state.isLogged ? '' : <Redirect to='/' />}
                 <NavHeader />
                 <Container className="searchResultsContainer">
-                    <h4 className="searchQueryLabel">Resultados para "{this.state.searchQuery}"</h4>
+                    
                     {
                         this.state.isSearching ?
-                            <Preloader className="searchLoader" size="big" color="blue" /> :
+                            <Preloader className="fullPageLoader" size="big" color="blue" /> :
                             this.state.searchSuccess ?
                                 <div>
-
+                                    <h4 className="searchQueryLabel">Resultados para "{this.state.searchQuery}"</h4>
                                     {this.state.books.map((book) => (
                                         <BookCard book={book} actions={[
                                             <div className="bookDetailsContainer">

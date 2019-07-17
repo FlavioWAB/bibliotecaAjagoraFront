@@ -6,7 +6,7 @@ import {
     Icon
 } from 'react-materialize';
 import axios from "axios";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 
 import './Dashboard.css';
 
@@ -82,10 +82,12 @@ class Dashboard extends React.Component {
                 <Container className="dashboardContainer">
                     {
                         (this.state.isAdmin) ?
-                            <Button className="cadastrarLivroButton">
-                                Cadastrar livro
-                            <Icon right>open_in_new</Icon>
-                            </Button> : ''
+                            <Link to="/cadastrar-livro">
+                                <Button className="cadastrarLivroButton">
+                                    Cadastrar livro
+                                    <Icon right>open_in_new</Icon>
+                                </Button>
+                            </Link> : ''
                     }
                     <h4>{this.state.isAdmin ? 'Últimas avaliações' : 'Suas últimas avaliações'}</h4>
 

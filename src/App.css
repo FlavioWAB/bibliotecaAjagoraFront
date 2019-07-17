@@ -30,3 +30,26 @@ body{
 .card-action{
 	border-top: 0 !important;
 }
+
+.createForm{
+    margin-top: 2.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.submitContainer{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.fullPageLoader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+.fullPageLoader > .spinner-layer {
+    border-color: #68c2e8;
+}
