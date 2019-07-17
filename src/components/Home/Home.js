@@ -1,11 +1,13 @@
 import React from 'react';
 import { Container, Button, Icon } from 'react-materialize';
 import { Redirect } from "react-router-dom";
-import logo from '../../images/logo.png';
+
+import Logo from '../../images/logo.png';
 import LoginForm from '../LoginForm/LoginForm';
-import './Home.css';
 import UserForm from '../UserForm/UserForm';
-import axios from 'axios';
+import Utils from '../../Utils';
+
+import './Home.css';
 
 class Home extends React.Component {
     constructor(props) {
@@ -16,27 +18,16 @@ class Home extends React.Component {
             createUser: false
         }
 
-        this.backend = 'http://localhost:5000/api/v1';
-
         this.backToLogin = this.backToLogin.bind(this);
 
     }
 
     componentWillMount() {
-        let token = localStorage.getItem('token');
-        if (typeof token !== 'undefined') {
-            axios.get(`${this.backend}/authentication/isLogged`, {
-                headers: {
-                    Authorization: token
-                }
-            }).then((response) => {
-                if(response.data){
-                    this.setState({
-                        isLogged: true
-                    })
-                }
+        Utils.isLogged().then(isLogged => {            
+            this.setState({
+                isLogged: isLogged
             });
-        }
+        });
     }
 
     backToLogin() {
@@ -55,7 +46,7 @@ class Home extends React.Component {
         return (
             <Container>
                 <div className="logoContainer">
-                    <img src={logo} className="ajagoraLogo" alt="logo" />
+                    <img src={Logo} className="ajagoraLogo" alt="logo" />
                 </div>
                 {this.state.isLogged ? <Redirect to='/dashboard' /> : ''}
                 {

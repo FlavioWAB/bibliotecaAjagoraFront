@@ -3,17 +3,20 @@ import {
     Container,
     CardPanel,
     Button,
-    Icon,
-    Card,
-    CardTitle
+    Icon
 } from 'react-materialize';
 import axios from "axios";
-import './Dashboard.css';
-import RatingStars from '../RatingStars/RatingStars';
 import { Redirect } from "react-router-dom";
+
+import './Dashboard.css';
+
+import RatingStars from '../RatingStars/RatingStars';
 import NavHeader from '../NavHeader/NavHeader';
+import Utils from '../../Utils';
+import BookCard from '../BookCard/BookCard';
 
 class Dashboard extends React.Component {
+
     constructor(props) {
         super(props);
 
@@ -27,67 +30,47 @@ class Dashboard extends React.Component {
             searchQuery: ''
         };
 
-        this.UserType = {
-            UNLOGGED: 0,
-            ADMIN: 1,
-            USER: 2
-        }
-
-        this.backend = 'http://localhost:5000/api/v1';
-
     }
 
     componentWillMount() {
-        let token = localStorage.getItem('token');
-        if (typeof token !== 'undefined') {
-            axios.get(`${this.backend}/authentication/isLogged`, {
-                headers: {
-                    Authorization: token
-                }
-            }).then((response) => {
-                if (response.data) {
 
-                    this.setState({
-                        isAdmin: (response.data === this.UserType.ADMIN),
-                        isLogged: true
-                    });
+        Utils.isLogged().then(isLogged => {
+            if (isLogged) {
 
-                    axios.get(`${this.backend}/ratings${this.state.isAdmin ? '' : '/user'}`, {
-                        headers: {
-                            Authorization: token
-                        }
-                    }).then((response) => {
+                this.setState({
+                    isAdmin: (isLogged === Utils.UserType.ADMIN),
+                    isLogged: true
+                });
 
-                        if (response.data.length === 0) {
-                            this.setState({
-                                ratingsSuccess: false
-                            });
-                        } else {
-                            this.setState({
-                                ratingsSuccess: true,
-                                ratings: response.data
-                            });
-                        }
+                axios.get(`${Utils.backend}/ratings${this.state.isAdmin ? '' : '/user'}`, {
+                    headers: {
+                        Authorization: localStorage.getItem('token')
+                    }
+                }).then((response) => {
 
-                    }).catch(() => {
+                    if (response.data.length === 0) {
                         this.setState({
                             ratingsSuccess: false
                         });
-                    });
+                    } else {
+                        this.setState({
+                            ratingsSuccess: true,
+                            ratings: response.data
+                        });
+                    }
 
-
-                } else {
+                }).catch(() => {
                     this.setState({
-                        isLogged: false
+                        ratingsSuccess: false
                     });
-                }
-
-            }).catch((response) => {
+                });
+            } else {
                 this.setState({
                     isLogged: false
                 });
-            });
-        }
+            }
+        });
+
     }
 
     render() {
@@ -108,15 +91,10 @@ class Dashboard extends React.Component {
 
                     {
                         this.state.ratingsSuccess ? this.state.ratings.map((rating) => (
-                            <Card key={rating.book.title}
-                                title={rating.book.title}
-                                actions={[<RatingStars key={'rs' + rating.book.title} bookTitle={rating.book.title} rating={rating.rating} />]}
-                                horizontal
-                                header={<CardTitle image={this.backend + '/files/' + rating.book.thumbnail} />}>
-                                Por {rating.book.author}<br />
-                            </Card>
+                            <BookCard key={rating.book.title} book={rating.book}
+                                actions={[<RatingStars key={'rs' + rating.book.title} bookTitle={rating.book.title} rating={rating.rating} />]} >
+                            </BookCard>
                         )) :
-
                             <CardPanel className="grey noRatings white-text">
                                 <Icon large color="white">error_outline</Icon><br></br>
                                 <span>

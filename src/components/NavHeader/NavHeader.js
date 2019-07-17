@@ -5,7 +5,7 @@ import {
     Icon
 } from 'react-materialize';
 import './NavHeader.css';
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 
 class NavHeader extends React.Component {
     constructor(props) {
@@ -14,10 +14,9 @@ class NavHeader extends React.Component {
         this.state = {
             isLogged: true,
             enableSearch: false,
-            searchQuery: '',
             searchSubmit: false
         };
-
+        this.searchQuery = '';
         this.logout = this.logout.bind(this);
         this.handleSearchChange = this.handleSearchChange.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
@@ -31,29 +30,27 @@ class NavHeader extends React.Component {
     }
 
     handleSearchChange(e) {
-        this.setState({
-            searchQuery: e.target.value
-        });
+        this.searchQuery = e.target.value;
     }
 
     handleSearch(e) {
         e.preventDefault();
         this.setState({
             searchSubmit: true
-        })
+        });
     }
 
     render() {
         return (
-            <Navbar brand={<span className="ajagoraBrand">Biblioteca Ajágora</span>} alignLinks="right">
+            <Navbar brand={<Link to="/dashboard"><span className="ajagoraBrand">Ajágora</span></Link>} alignLinks="right">
                 {this.state.isLogged ? '' : <Redirect to='/' />}
-                {this.state.searchSubmit ? <Redirect to={`/procurar/${this.state.searchQuery}`} /> : ''}
+                {this.state.searchSubmit ? <Redirect to={`/procurar/${this.searchQuery}`} /> : ''}
                 <nav className="noShadow">
                     <div className="nav-wrapper">
                         <form onSubmit={this.handleSearch}>
                             <div className="input-field col">
-                                <input type="search" onChange={this.handleSearchChange} />
-                                <label className="label-icon" htmlFor="searchInput">
+                                <input ref="searchInput" type="search" onChange={this.handleSearchChange} />
+                                <label className="label-icon">
                                     <i className="material-icons">search</i>
                                 </label>
                                 <i className="material-icons">close</i>

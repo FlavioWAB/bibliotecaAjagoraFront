@@ -81,7 +81,7 @@ class LoginForm extends React.Component {
                         Criar usuário
                     </Button>
                     <Button className="buttonLoaderWrapper" type="submit">
-                        {this.state.logged ? <div><Redirect to='/dashboard' /><Icon right>done</Icon></div> : this.state.isSubmitting ? <Preloader size="small" /> : <span>Entrar <Icon right>send</Icon></span>}
+                        {this.state.logged ? <div><Redirect to='/dashboard' /><Icon right>done</Icon></div> : this.state.isSubmitting ? <Preloader className="loginLoader" size="small" /> : <span>Entrar <Icon right>send</Icon></span>}
                     </Button>
                 </div>
             </form>

@@ -1,0 +1,90 @@
+.detalhesContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+    width: 100%;
+}
+
+.bookDetailsTitle {
+    font-size: 30px;
+}
+
+.bookDetailsAuthor {
+    font-size: 20px;
+}
+
+@media only screen and (max-width: 993px) {
+    .row .col {
+        float: none !important;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .titleColumn {
+        margin: 1rem 0!important;
+        width: 100%;
+    }
+}
+
+.detalhesContainer .material-placeholder {
+    justify-content: center;
+    display: flex;
+}
+
+.ratingReportContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 0;
+}
+
+.ratingDetailsContainer {
+    border-top: 1px solid rgba(160, 160, 160, 0.2);
+    margin-top: 1rem;
+    border-bottom: 1px solid rgba(160, 160, 160, 0.2);
+}
+
+.ratingDetailsTotal {
+    display: flex;
+    align-items: center;
+    font-size: 3rem;
+}
+
+.ratingDetailsTotal>.ratingSpan>.material-icons {
+    font-size: 2.5rem;
+}
+
+.ratingDetailsTotal>.ratingSpan {
+    margin-right: 1rem;
+}
+
+.flexRow {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.ratingDetailsCount {
+    padding-left: .5rem;
+}
+
+@media only screen and (min-width: 1201px) {
+    .row .col.xl6 {
+        width: unset;
+    }
+}
+
+.editButton {
+    right: 10px;
+    position: absolute;
+    z-index: 1;
+}
+
+.bookDetailsThumbnailCol {
+    margin: 0 !important;
+    justify-content: center;
+    display: flex;
+    width: 100%;
+    position: relative;
+}
+
+.ratingStar{
+    cursor: pointer;
+} 
