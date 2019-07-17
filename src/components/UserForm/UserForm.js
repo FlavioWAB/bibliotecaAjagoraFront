@@ -3,6 +3,8 @@ import { CardPanel, Preloader, TextInput, Switch, Button, Icon } from "react-mat
 import "./UserForm.css";
 import axios from "axios";
 
+import Utils from '../../Utils';
+
 class UserForm extends React.Component {
     constructor(props) {
         super(props);
@@ -17,8 +19,6 @@ class UserForm extends React.Component {
             lastName: '',
             password: ''
         }        
-
-        this.backend = 'http://localhost:5000/api/v1';
 
         this.showPassword = this.showPassword.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -49,7 +49,7 @@ class UserForm extends React.Component {
             isSubmitting: true
         });
 
-        axios.post(`${this.backend}/users`, {
+        axios.post(`${Utils.backend}/users`, {
             username: this.state.username,
             firstName: this.state.firstName,
             lastName: this.state.lastName,

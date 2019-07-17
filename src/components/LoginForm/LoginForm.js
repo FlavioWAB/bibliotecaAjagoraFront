@@ -3,6 +3,7 @@ import { CardPanel, Icon, TextInput, Button, Preloader } from 'react-materialize
 import './LoginForm.css';
 import axios from "axios";
 import { Redirect } from "react-router-dom";
+import Utils from '../../Utils';
 
 class LoginForm extends React.Component {
 
@@ -17,7 +18,6 @@ class LoginForm extends React.Component {
             loginFailed: false
         };
 
-        this.backend = 'http://localhost:5000/api/v1';
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -40,7 +40,7 @@ class LoginForm extends React.Component {
             isSubmitting: true
         });
 
-        axios.post(`${this.backend}/authentication/login`, {
+        axios.post(`${Utils.backend}/authentication/login`, {
             username: this.state.username,
             password: this.state.password
         }).then((d) => {
